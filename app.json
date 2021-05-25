@@ -2,7 +2,7 @@
   "expo": {
     "name": "CallHelp India",
     "slug": "CallHelp",
-    "version": "1.0.0",
+    "version": "3.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -22,7 +22,7 @@
     },
     "android": {
       "package": "com.zuro.callHelpIndia",
-      "versionCode": 1
+      "versionCode": 4
     }
   }
 }

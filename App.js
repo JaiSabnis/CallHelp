@@ -36,16 +36,6 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hasPerm: null,
-      location: "",
-      isDialogVisible: false,
-      contact1: 0,
-    };
-  }
-
   call = (phone) => {
     let phoneNumber = phone;
     if (Platform.OS !== "android") {
@@ -67,23 +57,6 @@ export default class App extends React.Component {
   };
 
   async componentDidMount() {
-    const { status, permissions } = await Permissions.askAsync(
-      Permissions.LOCATION
-    );
-
-    this.setState({
-      hasPerm: status === "granted",
-    });
-
-    if (this.state.hasPerm) {
-      let location = await Location.getCurrentPositionAsync({
-        enableHighAccuracy: true,
-      });
-      this.setState({
-        location: location.coords,
-      });
-    }
-
     if (Platform.OS === "android") {
       StatusBar.setBarStyle("dark-content", true);
       StatusBar.setBackgroundColor("white");
@@ -93,104 +66,7 @@ export default class App extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <DialogInput
-          isDialogVisible={this.state.isDialogVisible}
-          title={"Emergency contact"}
-          message={"Add the phone number for your emergency contact"}
-          hintInput={"eg- 987656754"}
-          submitInput={(inputText) => {
-            this.saveContact1(inputText);
-          }}
-          closeDialog={() => {
-            this.setState({ isDialogVisible: false });
-          }}
-        ></DialogInput>
         <Content>
-          {/*
-          <Card>
-            <CardItem header>
-              <Text style={{ fontWeight: "bold" }}>
-                Suicide Helpline & Emergency contact
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <View>
-                  <TouchableOpacity
-                    style={styles.circle}
-                    onPress={() => {
-                      this.call(9820466726);
-                    }}
-                  >
-                    <Ionicons name="ios-call" size={72} color="white" />
-                  </TouchableOpacity>
-                </View>
-              </Left>
-              <Right>
-                <Button
-                  style={{
-                    backgroundColor: "#8B78E6",
-                    width: width * 0.5,
-                    marginBottom: height * 0.02,
-                    marginRight: width * 0.01,
-                  }}
-                  onPress={() => {
-                    this.call(18602662345);
-                  }}
-                >
-                  <Text
-                    uppercase={false}
-                    style={{
-                      color: "white",
-                      marginLeft: "10%",
-                      fontSize: 15,
-                    }}
-                  >
-                    Mental Health Helpline 1
-                  </Text>
-                </Button>
-
-                <Button
-                  style={{
-                    backgroundColor: "#01CBC6",
-                    width: width * 0.5,
-                    marginBottom: height * 0.02,
-                    marginRight: width * 0.01,
-                  }}
-                  onPress={() => {
-                    this.call(9820466726);
-                  }}
-                >
-                  <Text
-                    uppercase={false}
-                    style={{ color: "white", marginLeft: "10%" }}
-                  >
-                    Mental Health Helpline 2
-                  </Text>
-                </Button>
-              </Right>
-            </CardItem>
-          </Card>
-          */}
-
-          {this.state.hasPerm ? (
-            <Card style={{ width: width }}>
-              <CardItem header>
-                <Text style={{ fontWeight: "bold" }}>Your Location</Text>
-              </CardItem>
-              <CardItem>
-                <Body>
-                  <Text>
-                    Latitude: {this.state.location.latitude} Longitude:{" "}
-                    {this.state.location.longitude}
-                  </Text>
-                </Body>
-              </CardItem>
-            </Card>
-          ) : (
-            <View />
-          )}
-
           <Card>
             <CardItem header>
               <Text style={{ fontWeight: "bold" }}>Indian Helplines</Text>
@@ -247,7 +123,52 @@ export default class App extends React.Component {
                 >
                   <FontAwesome name="heart" size={24} color="white" />
                   <Text uppercase={false} style={styles.texter}>
-                    Corona Helpline
+                    Covid-19 Helpline
+                  </Text>
+                </Button>
+
+                <Button
+                  onPress={() => {
+                    this.call(18602662345);
+                  }}
+                  block
+                  large
+                  iconLeft
+                  style={styles.btn}
+                  style={{
+                    marginTop: 10,
+                    marginBottom: 10,
+                    width: width * 0.9,
+                    alignSelf: "center",
+                    borderRadius: width / 25,
+                    backgroundColor: "#8B78E6",
+                  }}
+                >
+                  <MaterialIcons name="healing" size={24} color="white" />
+                  <Text uppercase={false} style={styles.texter}>
+                    Vandrevala Mental Health Helpline
+                  </Text>
+                </Button>
+
+                <Button
+                  onPress={() => {
+                    this.call(25521111);
+                  }}
+                  block
+                  large
+                  iconLeft
+                  style={{
+                    backgroundColor: "#8B78E6",
+                    marginTop: 10,
+                    marginBottom: 10,
+                    width: width * 0.9,
+                    alignSelf: "center",
+                    borderRadius: width / 25,
+                  }}
+                >
+                  <MaterialIcons name="healing" size={24} color="white" />
+                  <Text uppercase={false} style={styles.texter}>
+                    iCall Mental Health Helpline
                   </Text>
                 </Button>
 
@@ -360,38 +281,6 @@ export default class App extends React.Component {
                   <FontAwesome name="road" size={24} color="white" />
                   <Text uppercase={false} style={styles.texter}>
                     Road Accident Helpline
-                  </Text>
-                </Button>
-
-                <Button
-                  onPress={() => {
-                    this.call(18602662345);
-                  }}
-                  block
-                  large
-                  iconLeft
-                  style={styles.btn}
-                  style={{ backgroundColor: "#8B78E6" }}
-                >
-                  <FontAwesome name="road" size={24} color="white" />
-                  <Text uppercase={false} style={styles.texter}>
-                    Vandrevala Mental Health Helpline
-                  </Text>
-                </Button>
-
-                <Button
-                  onPress={() => {
-                    this.call(25521111);
-                  }}
-                  block
-                  large
-                  iconLeft
-                  style={styles.btn}
-                  style={{ backgroundColor: "#00CCCD" }}
-                >
-                  <FontAwesome name="road" size={24} color="white" />
-                  <Text uppercase={false} style={styles.texter}>
-                    iCall Mental Health Helpline
                   </Text>
                 </Button>
               </Body>
